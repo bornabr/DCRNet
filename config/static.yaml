@@ -1,0 +1,9 @@
+outputs: ',/outputs'
+workers: 4
+gpu: null
+resume: false
+save: false
+evaluate: false
+eval-freq: 10
+batch-size: 32
+lr: 0.01

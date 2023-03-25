@@ -1,0 +1,4 @@
+name: 'COST2100'
+path: './dataset/COST2100'
+shape: [1, 2, 32, 32]
+scenario: 'in'
