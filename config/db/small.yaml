@@ -1,0 +1,3 @@
+name: 'small'
+path: './dataset/Small/data_train_small.npy'
+shape: [1, 2, 32, 32]

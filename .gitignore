@@ -1,5 +1,9 @@
 .ipynb_checkpoints
 dataset/COST2100
+dataset/*.npy
+dataset/*/*.npy
 main.ipynb
 __pycache__/
 outputs/
+checkpoints/*.pth
+runs/*
