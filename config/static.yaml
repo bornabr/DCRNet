@@ -6,8 +6,10 @@ save: True
 evaluate: false
 log_interval: 10
 val_interval: 10
-batch_size: 32
-lr: 0.01
+batch_size: 200
+lr: 0.1
 num_workers: 4
-epochs: 100
-version: 0.1
+epochs: 2500
+reduction: 4
+expansion: 1
+version: 0.2
