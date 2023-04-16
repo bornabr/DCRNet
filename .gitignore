@@ -1,5 +1,6 @@
 .ipynb_checkpoints
 dataset/COST2100
+dataset/Small
 dataset/*.npy
 dataset/*/*.npy
 main.ipynb
@@ -7,3 +8,4 @@ __pycache__/
 outputs/
 checkpoints/*.pth
 runs/*
+config/db/small.yaml

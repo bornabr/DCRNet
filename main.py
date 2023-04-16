@@ -28,32 +28,32 @@ def handle_config(cfg):
 	return cfg
 
 def evaluator(pred, data):
-    with torch.no_grad():
-        # De-centralize
-        data = data - 0.5
-        pred = pred - 0.5
+	with torch.no_grad():
+		# De-centralize
+		data = data - 0.5
+		pred = pred - 0.5
 
-        # Calculate the NMSE
-        power_gt = data[:, 0, :, :] ** 2 + data[:, 1, :, :] ** 2
-        difference = data - pred
-        mse = difference[:, 0, :, :] ** 2 + difference[:, 1, :, :] ** 2
-        nmse = 10 * torch.log10((mse.sum(dim=[1, 2]) / power_gt.sum(dim=[1, 2])).mean())
-        
-        return nmse
+		# Calculate the NMSE
+		power_gt = data[:, 0, :, :] ** 2 + data[:, 1, :, :] ** 2
+		difference = data - pred
+		mse = difference[:, 0, :, :] ** 2 + difference[:, 1, :, :] ** 2
+		nmse = 10 * torch.log10((mse.sum(dim=[1, 2]) / power_gt.sum(dim=[1, 2])).mean())
+		
+		return nmse
 
 class WarmUpCosineAnnealingLR(_LRScheduler):
-    def __init__(self, optimizer, T_max, T_warmup, eta_min=0, last_epoch=-1):
-        self.T_max = T_max
-        self.T_warmup = T_warmup
-        self.eta_min = eta_min
-        super(WarmUpCosineAnnealingLR, self).__init__(optimizer, last_epoch)
+	def __init__(self, optimizer, T_max, T_warmup, eta_min=0, last_epoch=-1):
+		self.T_max = T_max
+		self.T_warmup = T_warmup
+		self.eta_min = eta_min
+		super(WarmUpCosineAnnealingLR, self).__init__(optimizer, last_epoch)
 
-    def get_lr(self):
-        if self.last_epoch < self.T_warmup:
-            return [base_lr * self.last_epoch / self.T_warmup for base_lr in self.base_lrs]
-        else:
-            k = 1 + np.cos(np.pi * (self.last_epoch - self.T_warmup) / (self.T_max - self.T_warmup))
-            return [self.eta_min + (base_lr - self.eta_min) * k / 2 for base_lr in self.base_lrs]
+	def get_lr(self):
+		if self.last_epoch < self.T_warmup:
+			return [base_lr * self.last_epoch / self.T_warmup for base_lr in self.base_lrs]
+		else:
+			k = 1 + np.cos(np.pi * (self.last_epoch - self.T_warmup) / (self.T_max - self.T_warmup))
+			return [self.eta_min + (base_lr - self.eta_min) * k / 2 for base_lr in self.base_lrs]
 
 
 @hydra.main(version_base=None, config_path="config", config_name="config")
@@ -94,8 +94,6 @@ def main(cfg):
 		pin_memory=False,
 		scenario=cfg.db.scenario)()
  
-	# Resume Training
-	# TODO: Implement this
 
 	# Train Model
 	criterion = nn.MSELoss()
@@ -104,9 +102,6 @@ def main(cfg):
 											 T_max=cfg.epochs * len(train_loader),
 											 T_warmup= 30 * len(train_loader),
 											 eta_min=5e-5)
-	# scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer=optimizer,
-	# 													   T_max=cfg.epochs * len(train_loader),
-	# 													   eta_min=5e-5)
 
 	best_nmse = 10
 	best_epoch = -1
@@ -160,7 +155,7 @@ def train(cfg, writer, epoch, train_loader, model, device, criterion, optimizer,
 		if batch_idx % cfg.log_interval == 0 or batch_idx == num_batches - 1:
 			# Log Epoch, Batch, Loss, LR
 			log.info('Train Epoch: {} [{}/{}]\tLoss: {:.3e}\tLR: {:.2e}'
-         		.format(epoch, batch_idx, num_batches, loss.item(), scheduler.get_last_lr()[0]))
+		 		.format(epoch, batch_idx, num_batches, loss.item(), scheduler.get_last_lr()[0]))
 	train_loss /= num_batches
 	log.info('====> Epoch: {} Average loss: {:.3e}'.format(epoch, train_loss))
 	writer.add_scalar('Train/Loss', train_loss, epoch)

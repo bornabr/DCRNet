@@ -1,7 +1,6 @@
 checkpoints_dir: './checkpoints'
 tensorboard_dir: './runs'
 gpu: null
-resume: false
 save: True
 evaluate: false
 log_interval: 10

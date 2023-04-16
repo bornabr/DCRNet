@@ -2,7 +2,7 @@ import torch
 from torch import nn
 import numpy as np
 
-from utils.wrapper import ConvWrapper, LinearWrapper, MaxPoolWrapper
+from utils.wrapper import ConvWrapper, LinearWrapper
 
 class DConv(nn.Module):
     def __init__(self, input_shape, dilation):
@@ -140,11 +140,9 @@ class DecoderBlock(nn.Module):
                                    nn.PReLU(num_parameters=out_channels, init=0.3),
                                    conv2,
                                    nn.BatchNorm2d(out_channels),
-                                #    nn.ShuffleChannel(groups),
                                    nn.PReLU(num_parameters=out_channels, init=0.3),
                                    conv3,
                                    nn.BatchNorm2d(out_channels),
-                                #    nn.shuffleChannel(groups),
                                    nn.PReLU(num_parameters=out_channels, init=0.3),
                                    conv4)
         
@@ -253,7 +251,6 @@ class DCRNet(nn.Module):
         
         self.net = nn.Sequential(encoder, decoder, nn.Sigmoid())
         
-        # TODO: Add kaiming init
         self.init_params()
         
     def init_params(self):
