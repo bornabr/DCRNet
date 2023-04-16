@@ -4,7 +4,7 @@ gpu: null
 save: True
 evaluate: false
 log_interval: 10
-val_interval: 10
+val_interval: 5
 batch_size: 200
 lr: 0.1
 num_workers: 4
