@@ -1,4 +1,4 @@
-name: dcrnet-env4
+name: dcrnet
 channels:
   - nvidia
   - conda-forge
