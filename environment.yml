@@ -256,4 +256,4 @@ dependencies:
   - zlib=1.2.13
   - zstd=1.5.5
   - pip:
-      - thop=0.1.1
+      - thop
